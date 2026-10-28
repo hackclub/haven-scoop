@@ -1,0 +1,32 @@
+{
+  "name": "haven-scoop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "pnpm pull && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "snapshot": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/snapshot.ts",
+    "pull": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/pull.ts"
+  },
+  "dependencies": {
+    "@photostructure/tz-lookup": "^11.7.0",
+    "@vercel/blob": "^2.8.1",
+    "next": "16.4.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  },
+  "packageManager": "pnpm@10.20.0"
+}

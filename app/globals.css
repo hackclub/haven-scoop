@@ -1,0 +1,704 @@
+/* Haven's look (haven.hackclub.com, github.com/hackclub/haven) in ice cream colours: blue where Haven
+   uses orange, a vanilla frame, and strawberry pink for a goal that's been made. */
+
+/* Accented letters Jua lacks, only fetched when used. */
+@font-face {
+  font-family: "Jua Extras";
+  src: url("/fonts/jua-extras.woff2") format("woff2");
+  font-display: swap;
+  unicode-range:
+    U+60, U+A1-AC, U+AE-17E, U+18F, U+192, U+1CD-1CE, U+1D4, U+218-21B, U+237, U+259, U+2C6-2CC, U+2D8-2DD,
+    U+1E9E, U+1EA0-1EF9, U+2010, U+2012-2015, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030,
+    U+2032-2033, U+2039-203A, U+2044, U+20AC, U+20B9, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
+}
+
+:root {
+  color-scheme: light;
+  --sky: #5aa7ea;
+  --ink: #1f5fbf;
+  --vanilla: #ffe7a3;
+  --muted: #56779f;
+  --muted-light: #9ab4d6;
+  --panel: rgb(255 255 255 / 0.85);
+  --line: rgb(31 95 191 / 0.16);
+  --wash: rgb(31 95 191 / 0.08);
+  --track: rgb(31 95 191 / 0.09);
+  --scoop: #ff8fb7;
+  --scoop-pale: #ffe3ee;
+  --cone: #ebb36b;
+  --cone-line: #c98a45;
+  /* Haven's art is orange and green; this turns it blue */
+  --to-blue: hue-rotate(190deg);
+
+  --display: var(--font-darumadrop), "Jua Extras", var(--font-jua), ui-rounded, system-ui, sans-serif;
+  --body: "Jua Extras", var(--font-jua), ui-rounded, system-ui, sans-serif;
+  --gutter: 16px;
+  --max: 1120px;
+}
+
+@media (min-width: 720px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--sky);
+  color: var(--ink);
+  font: 17px/1.35 var(--body);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+  font-weight: 400;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--vanilla);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--vanilla);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───────── hero ───────── */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--sky);
+  color: #fff;
+  padding: clamp(84px, 9vw, 112px) calc(var(--gutter) + 18px) clamp(48px, 6vw, 72px);
+}
+
+/* Haven's forest, turned blue; the filter is on a layer of its own so the text above keeps its colours */
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("/haven/hero-bg.webp") center top / cover no-repeat;
+  filter: var(--to-blue) saturate(0.85);
+}
+
+/* the double rule around the hero, as on haven.hackclub.com */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(var(--vanilla), var(--vanilla)), linear-gradient(var(--vanilla), var(--vanilla));
+  --o: clamp(0.5rem, 1.1vw, 1rem);
+  --g: clamp(0.75rem, 1.1vw, 1rem);
+  --w: clamp(3px, 0.35vw, 5px);
+}
+
+.hero::before {
+  inset: var(--o) calc(var(--o) + var(--g));
+  background-size: 100% var(--w);
+  background-position:
+    left top,
+    left bottom;
+}
+
+.hero::after {
+  inset: calc(var(--o) + var(--g)) var(--o);
+  background-size: var(--w) 100%;
+  background-position:
+    left top,
+    right top;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.nav-banner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  width: min(30rem, max(48%, 15rem));
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  filter: var(--to-blue);
+}
+
+.hero-nav {
+  position: absolute;
+  z-index: 3;
+  top: clamp(14px, 1.6vw, 24px);
+  left: calc(var(--gutter) + 18px);
+  right: calc(var(--gutter) + 18px);
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+.hero-day {
+  margin-left: auto;
+  font-family: var(--display);
+  font-size: clamp(20px, 2.4vw, 30px);
+  letter-spacing: -0.03em;
+  color: var(--vanilla);
+  white-space: nowrap;
+}
+
+.glow {
+  text-shadow: 0 0 4px var(--ink);
+}
+
+.title {
+  font-family: var(--display);
+  font-size: clamp(48px, 7.4vw, 100px);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  padding-top: clamp(16px, 3vw, 40px);
+}
+
+.sub {
+  margin-top: 14px;
+  font-size: clamp(17px, 1.8vw, 22px);
+  letter-spacing: -0.02em;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.back:hover {
+  transform: scale(1.05);
+}
+
+/* ───────── panels ───────── */
+
+.page {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 40px) var(--gutter) 0;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 1.2rem;
+  padding: clamp(18px, 3vw, 32px);
+  min-width: 0;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 18px;
+}
+
+.panel-head h2 {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.4vw, 40px);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.panel-head h2 .count {
+  color: var(--muted-light);
+  margin-left: 10px;
+}
+
+.search {
+  width: 100%;
+  max-width: 280px;
+  height: 44px;
+  padding: 0 18px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.search::placeholder {
+  color: var(--muted-light);
+}
+
+.search:focus {
+  border-color: var(--vanilla);
+}
+
+.empty {
+  color: var(--muted);
+  padding: 8px 0;
+}
+
+/* chart tooltip */
+.tip {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  background: #fff;
+  color: var(--ink);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.2;
+  white-space: nowrap;
+  transform: translate(-50%, calc(-100% - 10px));
+  box-shadow: 0 4px 16px rgb(20 60 130 / 0.18);
+}
+
+.tip strong {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.tip-sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ───────── the total, the cone and the goal ───────── */
+
+.top {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .top {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+}
+
+.big {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 28px);
+}
+
+.big-n {
+  font-family: var(--display);
+  font-size: clamp(84px, 11vw, 132px);
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+}
+
+.big-unit {
+  font-family: var(--display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: -0.04em;
+  margin: 8px 0 4px;
+}
+
+.goal {
+  display: grid;
+  gap: 10px;
+}
+
+.goal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--display);
+  font-size: clamp(22px, 2.2vw, 28px);
+  letter-spacing: -0.04em;
+}
+
+.cone {
+  width: clamp(80px, 11vw, 124px);
+  height: auto;
+  flex: none;
+  overflow: visible;
+}
+
+.cone-body {
+  fill: var(--cone);
+}
+
+.cone-waffle {
+  fill: none;
+  stroke: var(--cone-line);
+  stroke-width: 1.5;
+}
+
+.cone-scoop-empty {
+  fill: var(--scoop-pale);
+}
+
+.cone-scoop {
+  fill: var(--scoop);
+}
+
+.cone-shine {
+  fill: #fff;
+  opacity: 0.55;
+}
+
+.cone-cherry {
+  fill: #e23a5e;
+}
+
+.cone-stem {
+  fill: none;
+  stroke: #7a4a2a;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* the big bar toward the goal, and each haven's meter toward its share */
+.bar,
+.meter {
+  display: block;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.bar {
+  height: 26px;
+  border-radius: 6px;
+}
+
+.meter {
+  height: 10px;
+  border-radius: 999px;
+}
+
+.bar span,
+.meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ink);
+}
+
+.bar.done span,
+.row.done .meter span {
+  background: var(--scoop);
+}
+
+/* ───────── every day ───────── */
+
+.cols-wrap {
+  position: relative;
+  padding-top: 8px;
+}
+
+.cols {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  height: 140px;
+  border-bottom: 1px solid var(--muted-light);
+}
+
+.col {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  outline: none;
+}
+
+.col-bar {
+  width: 100%;
+  max-width: 24px;
+  background: var(--ink);
+  border-radius: 5px 5px 0 0;
+  transition: opacity 0.15s;
+}
+
+.cols:hover .col-bar {
+  opacity: 0.4;
+}
+
+.cols .col:hover .col-bar,
+.cols .col:focus-visible .col-bar {
+  opacity: 1;
+}
+
+.cols-axis {
+  display: flex;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--muted);
+  padding-top: 6px;
+}
+
+.cols-axis span {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ───────── havens ───────── */
+
+.board {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board li + li {
+  border-top: 1px solid var(--line);
+}
+
+/* the meter gets a line of its own on phones */
+.row {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "rank who n"
+    ". meter meter";
+  align-items: center;
+  gap: 8px 14px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+
+.row:hover {
+  background: var(--wash);
+}
+
+@media (min-width: 860px) {
+  .row {
+    grid-template-columns: 36px minmax(0, 1fr) minmax(0, 280px) 112px;
+    grid-template-areas: "rank who meter n";
+    gap: 24px;
+  }
+}
+
+.rank {
+  grid-area: rank;
+  color: var(--muted-light);
+  text-align: right;
+}
+
+.who {
+  grid-area: who;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.city {
+  font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-today {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.row .meter {
+  grid-area: meter;
+}
+
+.row-n {
+  grid-area: n;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  font-family: var(--display);
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.row-unit {
+  font-family: var(--body);
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--muted);
+  min-width: 40px;
+}
+
+/* ───────── footer ───────── */
+
+.foot {
+  position: relative;
+  margin-top: clamp(48px, 8vw, 96px);
+  padding: 0 var(--gutter) clamp(24px, 3vw, 36px);
+  min-height: clamp(110px, 18vw, 230px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+}
+
+.foot-bushes {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  z-index: 0;
+  pointer-events: none;
+  filter: hue-rotate(150deg);
+}
+
+.foot p {
+  position: relative;
+  z-index: 1;
+}
+
+.foot a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.foot a:hover {
+  color: var(--vanilla);
+}
+
+/* ───────── loading (Suspense fallback) ───────── */
+
+.loading-hero {
+  min-height: min(70vh, 640px);
+  display: grid;
+  place-items: center;
+}
+
+.loading-inner {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+
+.loading-daven {
+  width: 96px;
+  height: auto;
+  animation: daven-hop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) infinite alternate;
+  filter: var(--to-blue) drop-shadow(0 6px 10px rgb(20 60 130 / 0.25));
+}
+
+.loading-text {
+  font-family: var(--display);
+  font-size: clamp(26px, 3.2vw, 36px);
+  letter-spacing: -0.04em;
+}
+
+@keyframes daven-hop {
+  from {
+    transform: translateY(6px) rotate(-4deg);
+  }
+  to {
+    transform: translateY(-14px) rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-daven {
+    animation: none;
+  }
+}
+
+/* ───────── 404 ───────── */
+
+.lost {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  padding: var(--gutter);
+  text-align: center;
+}
+
+.lost-daven {
+  width: 160px;
+  height: auto;
+  filter: var(--to-blue);
+}
+
+.lost h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 6vw, 64px);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: #fff;
+  text-shadow: 0 0 4px var(--ink);
+}
