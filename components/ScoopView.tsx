@@ -220,7 +220,7 @@ export function ScoopView({ havens, generatedAt }: { havens: Haven[]; generatedA
             <h1 className="title glow">Scoop</h1>
             <p className="tagline glow">World’s Largest Ice Cream Party</p>
             <p className="pitch glow">
-              {SCOOP_GOAL} signups, for da {SCOOP_GOAL} scoops
+              {SCOOP_GOAL} signups in {SCOOP_DAYS} days, for da {SCOOP_GOAL} scoops
             </p>
           </div>
           <Stack total={total} />

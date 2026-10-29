@@ -299,10 +299,12 @@ input {
   white-space: nowrap;
 }
 
+/* one line too: about 18.2em long, so on a phone it shrinks to fit */
 .pitch {
   margin-top: 16px;
-  font-size: clamp(17px, 1.8vw, 21px);
+  font-size: min(clamp(17px, 1.8vw, 21px), 100cqi / 18.6);
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .stack {
