@@ -1,6 +1,6 @@
 // Rules for Scoop: every US haven together needs SCOOP_GOAL signups (any age) in SCOOP_DAYS days, and
 // then every US haven gets ice cream. Days run midnight to midnight in each haven's own timezone.
-export const SCOOP_START = "2026-10-28"; // day 1; a placeholder until the dates are set
+export const SCOOP_START = "2026-10-30"; // day 1, a Friday
 export const SCOOP_DAYS = 7;
 export const SCOOP_GOAL = 1000;
 

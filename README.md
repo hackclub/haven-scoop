@@ -14,7 +14,7 @@ The look, fonts and artwork come from [haven.hackclub.com](https://haven.hackclu
 - **Before the week**: signups before the haven's local day 1, so its goal is fixed once the week starts.
 - **Day**: the `Signup Time` converted to the haven's timezone, looked up from its `!Latitude` / `!Longitude`. The week runs midnight to midnight in each haven's own timezone.
 
-The dates and goals are in [`lib/config.ts`](lib/config.ts). **The dates are a placeholder (Oct 28 to Nov 3) until they're set.** Each haven's counts cover Sept 21 to Nov 15, so moving the week anywhere inside that only takes a deploy. The logic is in [`lib/scoop.ts`](lib/scoop.ts), and it runs in the browser against the live clock.
+The dates and goals are in [`lib/config.ts`](lib/config.ts). **Scoop runs Friday Oct 30 to Thursday Nov 5.** Each haven's counts cover Sept 21 to Nov 15, so moving the week anywhere inside that only takes a deploy. The logic is in [`lib/scoop.ts`](lib/scoop.ts), and it runs in the browser against the live clock.
 
 ## Data, caching and privacy
 
