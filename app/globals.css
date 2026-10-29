@@ -213,14 +213,15 @@ input {
   text-shadow: 0 0 4px var(--ink);
 }
 
+/* "Scoop" sits above the headline, always a little smaller than it */
 .title {
   font-family: var(--display);
-  font-size: clamp(48px, 7.4vw, 100px);
-  line-height: 0.85;
-  letter-spacing: -0.05em;
-  padding-top: clamp(16px, 3vw, 40px);
+  font-size: min(48px, 100cqi / 15.4);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  padding-top: clamp(8px, 1.6vw, 20px);
+  color: var(--vanilla);
 }
-
 
 .back {
   display: inline-flex;
@@ -242,7 +243,7 @@ input {
 
 /* ───────── the cone ───────── */
 
-/* phones: title, cone, tally; wider: title and tally beside a tall cone */
+/* phones: title, cone, tally; wider: title and tally beside a tall cone, which keeps only the width it needs */
 .shop {
   display: grid;
   grid-template-areas:
@@ -256,17 +257,14 @@ input {
 
 @media (min-width: 860px) {
   .shop {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
       "head stack"
       "tally stack";
     justify-items: start;
-    column-gap: clamp(32px, 4vw, 64px);
+    /* the cone's drawing already has room on its left, so the gap itself stays small */
+    column-gap: clamp(8px, 1vw, 16px);
     text-align: left;
-  }
-
-  .stack {
-    justify-self: center;
   }
 
   .shop-head {
@@ -281,19 +279,24 @@ input {
 .shop-head {
   grid-area: head;
   width: 100%;
-  max-width: 34rem;
+  max-width: 40rem;
   container-type: inline-size;
 }
 
-/* always one line: it's about 13.15em long, so it's sized to the width of its column */
+@media (min-width: 860px) {
+  .shop-head {
+    max-width: none;
+  }
+}
+
+/* the headline, always one line: it's about 13.15em long, so it's sized to the width of its column */
 .tagline {
-  margin-top: 12px;
+  margin-top: 6px;
   font-family: var(--display);
-  font-size: min(38px, 100cqi / 13.5);
-  line-height: 1;
+  font-size: min(56px, 100cqi / 13.5);
+  line-height: 0.95;
   letter-spacing: -0.04em;
   white-space: nowrap;
-  color: var(--vanilla);
 }
 
 .pitch {
