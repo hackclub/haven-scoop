@@ -1,6 +1,6 @@
 # Scoop
 
-A public dashboard for Scoop, a Hack Club Haven campaign: every US haven together needs 1,000 signups in one week, and then every US haven gets ice cream.
+A public dashboard for Scoop, the World’s Largest Ice Cream Party, a Hack Club Haven campaign: every US haven together needs 1,000 signups in one week, and then every US haven gets ice cream.
 
 The page is built around one cone: four scoops of 250 signups each that fill up toward the US total of 1,000, with a cherry on top once it's made. Under it, signups for each day of the week, and every US haven as a waffle tub that fills toward its own goal, fullest first: 20 for a haven with a venue, 10 for one without. A haven without a venue that had 45+ signups before the week started gets 20 too. Tapping a haven opens a popup with its tub and each of its days. The page itself never says how the goals are worked out.
 

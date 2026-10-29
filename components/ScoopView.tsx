@@ -218,10 +218,10 @@ export function ScoopView({ havens, generatedAt }: { havens: Haven[]; generatedA
         <div className="hero-inner shop">
           <div className="shop-head">
             <h1 className="title glow">Scoop</h1>
+            <p className="tagline glow">World’s Largest Ice Cream Party</p>
             <p className="pitch glow">
               {SCOOP_GOAL} signups, for da {SCOOP_GOAL} scoops
             </p>
-            <p className="only">US havens only</p>
           </div>
           <Stack total={total} />
           <div className="shop-tally">

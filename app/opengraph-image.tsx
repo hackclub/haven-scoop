@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 
 // The link preview: Haven's forest turned blue, Haven's logo, and a full cone. next/og can't read webp
 // or CSS filters, so assets/og keeps a JPEG of the forest already turned blue and a PNG of the logo.
-export const alt = "Hack Club Haven: Scoop";
+export const alt = "Hack Club Haven: Scoop, the World’s Largest Ice Cream Party";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

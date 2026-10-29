@@ -7,7 +7,7 @@ const display = Darumadrop_One({ variable: "--font-darumadrop", weight: "400", s
 const body = Jua({ variable: "--font-jua", weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Scoop",
+  title: "Scoop · World’s Largest Ice Cream Party",
   description: "1,000 signups across every US Hack Club Haven in one week, and ice cream for all of them.",
   // the image itself is app/opengraph-image.tsx; on Vercel its URL is based on the production domain
   openGraph: { siteName: "Scoop", type: "website" },
