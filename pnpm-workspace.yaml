@@ -1,3 +1,8 @@
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+
+# @vercel/blob → @vercel/oidc → @vercel/cli-config pins zod 4.1.11, which can exhaust memory validating
+# oversized collections (GHSA-mrhx-c7xc-m3w5, fixed in 4.6.6). Drop this once @vercel/cli-config moves past it.
+overrides:
+  "zod@<4.6.6": "^4.6.6"
