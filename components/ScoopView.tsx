@@ -183,11 +183,12 @@ export function ScoopView({ havens, generatedAt }: { havens: Haven[]; generatedA
 
   const week = weekOf(latest, (i) => havens.reduce((n, h) => n + (h.days[i] ?? 0), 0));
 
+  // before the week the top corner already says when it starts, so the tally has nothing to add
   const left = SCOOP_GOAL - total;
   const status = made
     ? "Ice cream for every US haven"
     : !started
-      ? `Starts ${formatDay(SCOOP_START)}`
+      ? null
       : over
         ? `${fmt(left)} short`
         : `${fmt(left)} to go`;
@@ -218,9 +219,13 @@ export function ScoopView({ havens, generatedAt }: { havens: Haven[]; generatedA
         <div className="hero-inner shop">
           <div className="shop-head">
             <h1 className="title glow">Scoop</h1>
-            <p className="tagline glow">World’s Largest Ice Cream Party</p>
+            <p className="tagline glow">
+              World’s Largest
+              <br />
+              Ice Cream Party
+            </p>
             <p className="pitch glow">
-              {SCOOP_GOAL} signups in {SCOOP_DAYS} days, for da {SCOOP_GOAL} scoops
+              {SCOOP_GOAL} signups in {SCOOP_DAYS} days
             </p>
           </div>
           <Stack total={total} />
@@ -229,7 +234,7 @@ export function ScoopView({ havens, generatedAt }: { havens: Haven[]; generatedA
               <span className="num">{fmt(total)}</span>
               <span className="tally-of">/ {fmt(SCOOP_GOAL)}</span>
             </p>
-            <p className="tally-status glow">{status}</p>
+            {status && <p className="tally-status glow">{status}</p>}
             <ul className="facts">
               {started && !over && (
                 <li>
