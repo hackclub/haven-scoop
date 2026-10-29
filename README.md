@@ -32,12 +32,12 @@ pnpm install
 pnpm dev
 ```
 
-Locally, with no Blob token, pulls are saved to `data/scoop.json` (gitignored). `pnpm pull` pulls if that copy is missing or over an hour old, and so does `pnpm build`. Before the first pull the app reads `data/snapshot.json`, which `pnpm snapshot` makes.
+Locally, with no Blob store connected, pulls are saved to `data/scoop.json` (gitignored). `pnpm pull` pulls if that copy is missing or over an hour old, and so does `pnpm build`. Before the first pull the app reads `data/snapshot.json`, which `pnpm snapshot` makes.
 
 ## Deploying on Vercel
 
 1. Import the repo into Vercel.
-2. In the project's Storage tab, create a **private** Blob store and connect it. That adds `BLOB_READ_WRITE_TOKEN`.
+2. In the project's Storage tab, create a **private** Blob store and connect it to **Production** only, so preview builds and `vercel env pull` never write to the live copy. With OIDC that adds `BLOB_STORE_ID` and the SDK signs in with the deployment's own token; a read-write token store adds `BLOB_READ_WRITE_TOKEN`. Either works.
 3. Set `AIRTABLE_TOKEN`, `AIRTABLE_BASE_ID` and `CRON_SECRET` (e.g. `openssl rand -hex 32`).
 4. Deploy. The build does the first pull itself, so the site has data straight away.
 

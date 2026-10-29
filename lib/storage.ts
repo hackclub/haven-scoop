@@ -5,11 +5,12 @@ import path from "node:path";
 import type { ScoopData } from "./types";
 
 // Where the latest pull lives, already aggregated into exactly what the page shows (no raw signup rows).
-// On Vercel: a private Vercel Blob, readable only with the store's token. Locally, when there's no
-// BLOB_READ_WRITE_TOKEN: data/scoop.json (gitignored).
+// On Vercel: a private Vercel Blob. A store connected with OIDC sets BLOB_STORE_ID and the SDK signs in
+// with the deployment's short-lived OIDC token; an older one sets BLOB_READ_WRITE_TOKEN instead. Locally,
+// with no store connected: data/scoop.json (gitignored).
 const BLOB_PATH = "scoop-data.json";
 const LOCAL_FILE = path.join(process.cwd(), "data", "scoop.json");
-const onVercelBlob = () => !!process.env.BLOB_READ_WRITE_TOKEN;
+const onVercelBlob = () => !!(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
 
 export async function saveScoopData(data: ScoopData) {
   const body = JSON.stringify(data);
