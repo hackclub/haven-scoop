@@ -2,7 +2,7 @@
 
 A public dashboard for Scoop, a Hack Club Haven campaign: every US haven together needs 1,000 signups in one week, and then every US haven gets ice cream.
 
-The page shows the US total against 1,000 (with a cone that fills up), signups for each day so far, and every US haven ranked by signups this week against an even share of the goal (1,000 ÷ the number of US havens, rounded up). Each haven links to its page on [50 Days Till Daven](https://daven.haven.hackclub.com).
+The page is built around one cone: four scoops of 250 signups each that fill up toward the US total of 1,000, with a cherry on top once it's made. Under it, signups for each day of the week, and every US haven as a waffle tub that fills toward its own goal, fullest first: 20 for a haven with a venue, 10 for one without. A haven without a venue that had 45+ signups before the week started gets 20 too. Tapping a haven opens a popup with its tub and each of its days. The page itself never says how the goals are worked out.
 
 The look, fonts and artwork come from [haven.hackclub.com](https://haven.hackclub.com) ([hackclub/haven](https://github.com/hackclub/haven)), turned blue.
 
@@ -10,9 +10,11 @@ The look, fonts and artwork come from [haven.hackclub.com](https://haven.hackclu
 
 - **Signups**: rows in the Attendees table with `Role = Participant`, excluding `Soft Deleted` (duplicates) and `!Withdrawn`, whatever their age.
 - **Havens**: Active events in the United States, minus `_Is Test`.
+- **Venue**: a haven has one when a venue linked to it in the Venues table is `Approved`, which is when haven.hackclub.com shows it. Only the venue's record id is pulled, never its name, address or contact.
+- **Before the week**: signups before the haven's local day 1, so its goal is fixed once the week starts.
 - **Day**: the `Signup Time` converted to the haven's timezone, looked up from its `!Latitude` / `!Longitude`. The week runs midnight to midnight in each haven's own timezone.
 
-The dates and goal are in [`lib/config.ts`](lib/config.ts). **The dates are a placeholder (Oct 28 to Nov 3) until they're set.** Each haven's counts cover Sept 21 to Nov 15, so moving the week anywhere inside that only takes a deploy. The logic is in [`lib/scoop.ts`](lib/scoop.ts), and it runs in the browser against the live clock.
+The dates and goals are in [`lib/config.ts`](lib/config.ts). **The dates are a placeholder (Oct 28 to Nov 3) until they're set.** Each haven's counts cover Sept 21 to Nov 15, so moving the week anywhere inside that only takes a deploy. The logic is in [`lib/scoop.ts`](lib/scoop.ts), and it runs in the browser against the live clock.
 
 ## Data, caching and privacy
 

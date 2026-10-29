@@ -11,6 +11,8 @@ import {
   ATTENDEE_FILTER,
   EVENT_FIELDS,
   EVENT_FILTER,
+  VENUE_FIELDS,
+  VENUE_FILTER,
 } from "./airtable-config";
 import type { RawData, RawEvent, RawSignup } from "./types";
 
@@ -25,8 +27,9 @@ function num(v: unknown): number | null {
 }
 
 const str = (v: unknown) => (typeof first(v) === "string" ? (first(v) as string).trim() : "");
+const list = (v: unknown) => (Array.isArray(v) ? v : []);
 
-export function normalizeEvent(id: string, f: Fields): RawEvent | null {
+export function normalizeEvent(id: string, f: Fields, approvedVenues: Set<string>): RawEvent | null {
   const slug = str(f[EVENT_FIELDS.slug]);
   if (!slug) return null;
   const name = str(f[EVENT_FIELDS.name]) || slug;
@@ -41,6 +44,7 @@ export function normalizeEvent(id: string, f: Fields): RawEvent | null {
     status: str(f[EVENT_FIELDS.status]),
     lat: num(f[EVENT_FIELDS.lat]),
     lon: num(f[EVENT_FIELDS.lon]),
+    venue: list(f[EVENT_FIELDS.venues]).some((v) => approvedVenues.has(v)),
   };
 }
 
@@ -114,11 +118,13 @@ export const describeError = (err: unknown) =>
 export async function loadFromAirtable(token: string): Promise<RawData> {
   if (!AIRTABLE_BASE_ID) throw new Error("AIRTABLE_BASE_ID is not set");
   const events = await listAll(AIRTABLE_TABLES.events, Object.values(EVENT_FIELDS), EVENT_FILTER, token);
+  const venues = await listAll(AIRTABLE_TABLES.venues, Object.values(VENUE_FIELDS), VENUE_FILTER, token);
   const attendees = await listAll(AIRTABLE_TABLES.attendees, Object.values(ATTENDEE_FIELDS), ATTENDEE_FILTER, token);
+  const approvedVenues = new Set(venues.map((r) => r.id));
   return {
     fetchedAt: Date.now(),
     origin: "airtable",
-    events: events.map((r) => normalizeEvent(r.id, r.fields)).filter((e): e is RawEvent => e !== null),
+    events: events.map((r) => normalizeEvent(r.id, r.fields, approvedVenues)).filter((e): e is RawEvent => e !== null),
     signups: attendees.map((r) => normalizeSignup(r.fields)).filter((s): s is RawSignup => s !== null),
   };
 }

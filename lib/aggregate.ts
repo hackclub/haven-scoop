@@ -25,7 +25,9 @@ export function aggregate(raw: RawData): ScoopData {
       slug: e.slug,
       name: e.name,
       city: e.city,
+      venue: e.venue === true, // old snapshots don't have it
       tz: timezoneFor(e.lat, e.lon),
+      earlier: 0,
       days: new Array(CHART_DAYS).fill(0),
     });
   }
@@ -34,7 +36,8 @@ export function aggregate(raw: RawData): ScoopData {
     const h = byId.get(s.eventId);
     if (!h) continue;
     const i = chartIndex(localParts(s.time, h.tz).date);
-    if (i >= 0 && i < CHART_DAYS) h.days[i]++;
+    if (i < 0) h.earlier++;
+    else if (i < CHART_DAYS) h.days[i]++;
   }
 
   return {

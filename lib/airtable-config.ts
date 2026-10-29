@@ -18,6 +18,7 @@ export const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID ?? "";
 export const AIRTABLE_TABLES = {
   events: "tbl0BQWphHe0gWEIp",
   attendees: "tblFV1bwpg8vheHHv",
+  venues: "tbltjfsyXGbte0oBf",
 };
 
 export const EVENT_FIELDS = {
@@ -27,7 +28,12 @@ export const EVENT_FIELDS = {
   status: "Status",
   lat: "!Latitude",
   lon: "!Longitude",
+  venues: "Venue",
   isTest: "_Is Test",
+} as const;
+
+export const VENUE_FIELDS = {
+  status: "Status",
 } as const;
 
 export const ATTENDEE_FIELDS = {
@@ -42,3 +48,6 @@ export const ATTENDEE_FIELDS = {
 export const ATTENDEE_FILTER = `AND({${ATTENDEE_FIELDS.role}}='Participant', NOT({${ATTENDEE_FIELDS.softDeleted}}), NOT({${ATTENDEE_FIELDS.withdrawn}}))`;
 // Only what haven.hackclub.com itself publishes: On Hold / Cancelled / Merged events stay private.
 export const EVENT_FILTER = `AND({${EVENT_FIELDS.status}}='Active', NOT({${EVENT_FIELDS.isTest}}))`;
+// A haven has a venue once one is approved, which is also when haven.hackclub.com shows it. Only the ids
+// are used: venue names, addresses and contacts are never requested.
+export const VENUE_FILTER = `{${VENUE_FIELDS.status}}='Approved'`;

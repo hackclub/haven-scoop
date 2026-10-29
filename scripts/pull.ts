@@ -11,7 +11,9 @@ async function main() {
   if (!token) return console.log("[scoop] no AIRTABLE_TOKEN, skipping the pull");
 
   const saved = await readScoopData();
-  if (saved && Date.now() - saved.generatedAt < PULL_EVERY_MS) {
+  // a copy saved before venues were pulled is redone, or every haven would show the no-venue goal
+  const current = saved?.havens.every((h) => typeof h.venue === "boolean");
+  if (saved && current && Date.now() - saved.generatedAt < PULL_EVERY_MS) {
     return console.log(`[scoop] saved pull is ${Math.round((Date.now() - saved.generatedAt) / 60_000)}m old, skipping`);
   }
   const t0 = Date.now();

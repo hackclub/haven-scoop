@@ -27,6 +27,11 @@
   --scoop-pale: #ffe3ee;
   --cone: #ebb36b;
   --cone-line: #c98a45;
+  --ink-deep: #163f85;
+  --cream: #fff8ea;
+  --waffle: #f8e6c6;
+  --waffle-line: rgb(201 138 69 / 0.22);
+  --waffle-edge: rgb(201 138 69 / 0.35);
   /* Haven's art is orange and green; this turns it blue */
   --to-blue: hue-rotate(190deg);
 
@@ -118,6 +123,8 @@ input {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
   background: var(--sky);
   color: #fff;
   padding: clamp(84px, 9vw, 112px) calc(var(--gutter) + 18px) clamp(48px, 6vw, 72px);
@@ -214,11 +221,6 @@ input {
   padding-top: clamp(16px, 3vw, 40px);
 }
 
-.sub {
-  margin-top: 14px;
-  font-size: clamp(17px, 1.8vw, 22px);
-  letter-spacing: -0.02em;
-}
 
 .back {
   display: inline-flex;
@@ -238,40 +240,259 @@ input {
   transform: scale(1.05);
 }
 
-/* ───────── panels ───────── */
+/* ───────── the cone ───────── */
 
-.page {
+/* phones: title, cone, tally; wider: title and tally beside a tall cone */
+.shop {
   display: grid;
-  gap: clamp(16px, 2vw, 24px);
-  max-width: calc(var(--max) + var(--gutter) * 2);
-  margin: 0 auto;
-  padding: clamp(24px, 4vw, 40px) var(--gutter) 0;
+  grid-template-areas:
+    "head"
+    "stack"
+    "tally";
+  justify-items: center;
+  gap: clamp(20px, 3vw, 28px);
+  text-align: center;
 }
 
-.panel {
-  background: var(--panel);
-  border-radius: 1.2rem;
-  padding: clamp(18px, 3vw, 32px);
-  min-width: 0;
+@media (min-width: 860px) {
+  .shop {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "head stack"
+      "tally stack";
+    justify-items: start;
+    column-gap: clamp(32px, 4vw, 64px);
+    text-align: left;
+  }
+
+  .stack {
+    justify-self: center;
+  }
+
+  .shop-head {
+    align-self: end;
+  }
+
+  .shop-tally {
+    align-self: start;
+  }
 }
 
-.panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  margin-bottom: 18px;
+.shop-head {
+  grid-area: head;
+  max-width: 34rem;
 }
 
-.panel-head h2 {
+.pitch {
+  margin-top: 16px;
+  font-size: clamp(17px, 1.8vw, 21px);
+  letter-spacing: -0.02em;
+}
+
+.only {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 3px 12px;
+  border: 2px solid var(--vanilla);
+  border-radius: 999px;
+  color: var(--vanilla);
+  font-size: 15px;
+}
+
+.stack {
+  grid-area: stack;
+  height: clamp(320px, 54vh, 520px);
+  width: auto;
+  max-width: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 14px 22px rgb(10 40 100 / 0.35));
+}
+
+@media (min-width: 860px) {
+  .stack {
+    height: clamp(380px, 76vh, 700px);
+  }
+}
+
+.cone-body {
+  fill: var(--cone);
+}
+
+.cone-waffle {
+  fill: none;
+  stroke: var(--cone-line);
+  stroke-width: 1.5;
+}
+
+/* a scoop still to come: pale, with a dashed edge */
+.scoop-empty {
+  fill: #eaf2fd;
+  stroke: var(--muted-light);
+  stroke-width: 1;
+  stroke-dasharray: 3 2.5;
+}
+
+/* the stroke covers the dashes wherever the scoop has filled */
+.scoop path {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.scoop-strawberry {
+  color: var(--scoop);
+}
+
+.scoop-vanilla {
+  color: #fff0c2;
+}
+
+.scoop-mint {
+  color: #94e6c9;
+}
+
+.scoop-chocolate {
+  color: #a8694a;
+}
+
+.stack-label {
   font-family: var(--display);
-  font-size: clamp(28px, 3.4vw, 40px);
+  font-size: 9px;
+  letter-spacing: -0.03em;
+  fill: rgb(255 255 255 / 0.7);
+}
+
+.stack-label.on {
+  fill: var(--vanilla);
+}
+
+.cone-shine {
+  fill: #fff;
+  opacity: 0.55;
+}
+
+.cone-cherry {
+  fill: #e23a5e;
+}
+
+.cone-stem {
+  fill: none;
+  stroke: #7a4a2a;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.shop-tally {
+  grid-area: tally;
+}
+
+.tally {
+  font-family: var(--display);
+  font-size: clamp(88px, 12vw, 160px);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+}
+
+.tally-of {
+  margin-left: 0.15em;
+  font-size: 0.3em;
+  letter-spacing: -0.03em;
+  color: var(--vanilla);
+}
+
+.tally-status {
+  margin-top: 14px;
+  font-family: var(--display);
+  font-size: clamp(22px, 2.6vw, 32px);
+  letter-spacing: -0.04em;
+  color: var(--vanilla);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 860px) {
+  .facts {
+    justify-content: flex-start;
+  }
+}
+
+.facts li {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.facts b {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+/* ───────── the parlour: every day and every haven ───────── */
+
+.parlor {
+  position: relative;
+  z-index: 1;
+  background: var(--cream);
+  color: var(--ink);
+  padding: clamp(64px, 8vw, 96px) var(--gutter) clamp(48px, 6vw, 72px);
+}
+
+/* strawberry poured over its top edge */
+.parlor::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 34px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34'%3E%3Cpath fill='%23ff8fb7' d='M0 0H160V10H146Q143 10 143 13V16A5 5 0 0 1 133 16V13Q133 10 130 10H114Q110 10 110 15V22A6 6 0 0 1 98 22V15Q98 10 94 10H66Q62 10 62 15V26A7 7 0 0 1 48 26V15Q48 10 44 10H26Q23 10 23 13V18A5 5 0 0 1 13 18V13Q13 10 10 10H0Z'/%3E%3C/svg%3E")
+    repeat-x left top / 160px 34px;
+}
+
+/* and the cream itself melting down into the footer */
+.parlor::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 34px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 34'%3E%3Cpath fill='%23fff8ea' d='M0 0H160V10H146Q143 10 143 13V16A5 5 0 0 1 133 16V13Q133 10 130 10H114Q110 10 110 15V22A6 6 0 0 1 98 22V15Q98 10 94 10H66Q62 10 62 15V26A7 7 0 0 1 48 26V15Q48 10 44 10H26Q23 10 23 13V18A5 5 0 0 1 13 18V13Q13 10 10 10H0Z'/%3E%3C/svg%3E")
+    repeat-x 70px top / 160px 34px;
+}
+
+.parlor-inner {
+  display: grid;
+  gap: clamp(48px, 7vw, 80px);
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: clamp(18px, 2.4vw, 28px);
+}
+
+.section-head h2 {
+  font-family: var(--display);
+  font-size: clamp(34px, 4.4vw, 52px);
   letter-spacing: -0.05em;
   line-height: 0.9;
 }
 
-.panel-head h2 .count {
+.section-head h2 .count {
   color: var(--muted-light);
   margin-left: 10px;
 }
@@ -302,305 +523,313 @@ input {
   padding: 8px 0;
 }
 
-/* chart tooltip */
-.tip {
-  position: absolute;
-  z-index: 20;
-  pointer-events: none;
-  background: #fff;
-  color: var(--ink);
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 15px;
-  line-height: 1.2;
-  white-space: nowrap;
-  transform: translate(-50%, calc(-100% - 10px));
-  box-shadow: 0 4px 16px rgb(20 60 130 / 0.18);
-}
-
-.tip strong {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: 20px;
-  letter-spacing: -0.03em;
-}
-
-.tip-sub {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-/* ───────── the total, the cone and the goal ───────── */
-
-.top {
+/* a column a day, as tall as its signups next to the week's busiest day */
+.days {
   display: grid;
-  gap: 32px;
-  align-items: center;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: clamp(6px, 1.6vw, 20px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-@media (min-width: 860px) {
-  .top {
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-  }
-}
-
-.big {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 3vw, 28px);
-}
-
-.big-n {
-  font-family: var(--display);
-  font-size: clamp(84px, 11vw, 132px);
-  line-height: 0.78;
-  letter-spacing: -0.06em;
-}
-
-.big-unit {
-  font-family: var(--display);
-  font-size: clamp(22px, 2.4vw, 30px);
-  letter-spacing: -0.04em;
-  margin: 8px 0 4px;
-}
-
-.goal {
+.day {
   display: grid;
-  gap: 10px;
+  justify-items: center;
+  text-align: center;
 }
 
-.goal-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-family: var(--display);
-  font-size: clamp(22px, 2.2vw, 28px);
-  letter-spacing: -0.04em;
-}
-
-.cone {
-  width: clamp(80px, 11vw, 124px);
-  height: auto;
-  flex: none;
-  overflow: visible;
-}
-
-.cone-body {
-  fill: var(--cone);
-}
-
-.cone-waffle {
-  fill: none;
-  stroke: var(--cone-line);
-  stroke-width: 1.5;
-}
-
-.cone-scoop-empty {
-  fill: var(--scoop-pale);
-}
-
-.cone-scoop {
-  fill: var(--scoop);
-}
-
-.cone-shine {
-  fill: #fff;
-  opacity: 0.55;
-}
-
-.cone-cherry {
-  fill: #e23a5e;
-}
-
-.cone-stem {
-  fill: none;
-  stroke: #7a4a2a;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-/* the big bar toward the goal, and each haven's meter toward its share */
-.bar,
-.meter {
-  display: block;
-  background: var(--track);
-  overflow: hidden;
-}
-
-.bar {
-  height: 26px;
-  border-radius: 6px;
-}
-
-.meter {
-  height: 10px;
-  border-radius: 999px;
-}
-
-.bar span,
-.meter span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--ink);
-}
-
-.bar.done span,
-.row.done .meter span {
-  background: var(--scoop);
-}
-
-/* ───────── every day ───────── */
-
-.cols-wrap {
-  position: relative;
-  padding-top: 8px;
-}
-
-.cols {
-  display: flex;
-  align-items: stretch;
-  gap: 2px;
-  height: 140px;
-  border-bottom: 1px solid var(--muted-light);
-}
-
-.col {
-  flex: 1;
+/* the top padding leaves room for the busiest day's number */
+.day-plot {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  outline: none;
-}
-
-.col-bar {
   width: 100%;
-  max-width: 24px;
-  background: var(--ink);
-  border-radius: 5px 5px 0 0;
-  transition: opacity 0.15s;
+  height: clamp(130px, 16vw, 190px);
+  padding-top: 36px;
+  border-bottom: 2px solid var(--line);
 }
 
-.cols:hover .col-bar {
-  opacity: 0.4;
+.day-bar {
+  position: relative;
+  width: 100%;
+  max-width: 72px;
+  border-radius: 10px 10px 3px 3px;
+  background: var(--scoop);
 }
 
-.cols .col:hover .col-bar,
-.cols .col:focus-visible .col-bar {
-  opacity: 1;
-}
-
-.cols-axis {
-  display: flex;
-  gap: 2px;
-  font-size: 13px;
-  color: var(--muted);
-  padding-top: 6px;
-}
-
-.cols-axis span {
-  flex: 1;
-  text-align: center;
+.day-n {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 6px;
+  transform: translateX(-50%);
+  font-family: var(--display);
+  font-size: clamp(18px, 2.6vw, 30px);
+  line-height: 1;
+  letter-spacing: -0.04em;
   white-space: nowrap;
 }
 
-/* ───────── havens ───────── */
+.day.later .day-n {
+  color: var(--muted-light);
+}
 
-.board {
-  list-style: none;
+.day-name {
+  margin-top: 10px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: clamp(14px, 1.5vw, 17px);
+}
+
+.day.now .day-name {
+  background: var(--vanilla);
+}
+
+.day-date {
+  font-size: clamp(11px, 1.2vw, 13px);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* every haven is a waffle tub as wide as the page, filling with strawberry toward its own goal */
+.tubs {
+  display: grid;
+  gap: 10px;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
-.board li + li {
-  border-top: 1px solid var(--line);
-}
-
-/* the meter gets a line of its own on phones */
-.row {
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
-  grid-template-areas:
-    "rank who n"
-    ". meter meter";
-  align-items: center;
-  gap: 8px 14px;
-  padding: 10px 8px;
-  border-radius: 12px;
-  transition: background 0.15s;
-}
-
-.row:hover {
-  background: var(--wash);
-}
-
-@media (min-width: 860px) {
-  .row {
-    grid-template-columns: 36px minmax(0, 1fr) minmax(0, 280px) 112px;
-    grid-template-areas: "rank who meter n";
-    gap: 24px;
-  }
-}
-
-.rank {
-  grid-area: rank;
-  color: var(--muted-light);
-  text-align: right;
-}
-
-.who {
-  grid-area: who;
+.tub {
+  position: relative;
+  isolation: isolate;
   display: flex;
-  align-items: baseline;
-  gap: 10px;
-  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 18px 6px 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink-deep);
+  background-color: var(--waffle);
+  background-image:
+    repeating-linear-gradient(45deg, var(--waffle-line) 0 1.5px, transparent 1.5px 13px),
+    repeating-linear-gradient(-45deg, var(--waffle-line) 0 1.5px, transparent 1.5px 13px);
+  box-shadow: inset 0 0 0 1.5px var(--waffle-edge);
+  transition:
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s;
 }
 
-.city {
-  font-size: 20px;
+.tub:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1.5px var(--waffle-edge),
+    0 6px 14px rgb(120 70 20 / 0.15);
+}
+
+.tub-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--scoop);
+}
+
+/* sprinkles once it's full */
+.tub.done .tub-fill {
+  background-image:
+    radial-gradient(circle, #fff 0 1.5px, transparent 2px),
+    radial-gradient(circle, var(--vanilla) 0 1.5px, transparent 2px),
+    radial-gradient(circle, #94e6c9 0 1.5px, transparent 2px),
+    radial-gradient(circle, var(--sky) 0 1.5px, transparent 2px);
+  background-size: 36px 24px;
+  background-position:
+    4px 5px,
+    22px 16px,
+    13px 19px,
+    30px 3px;
+}
+
+.tub-rank {
+  flex: none;
+  min-width: 26px;
+  text-align: right;
+  font-size: 15px;
+  opacity: 0.6;
+}
+
+.tub-city {
+  min-width: 0;
+  font-size: clamp(18px, 2vw, 21px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.row-today {
-  color: var(--muted);
+.tub-today {
+  flex: none;
   font-size: 14px;
+  opacity: 0.75;
   white-space: nowrap;
 }
 
-.row .meter {
-  grid-area: meter;
+@media (max-width: 520px) {
+  .tub-today-word {
+    display: none;
+  }
 }
 
-.row-n {
-  grid-area: n;
+.tub-n {
+  flex: none;
   display: flex;
   align-items: baseline;
-  justify-content: flex-end;
   gap: 6px;
+  margin-left: auto;
   font-family: var(--display);
-  font-size: 32px;
+  font-size: clamp(24px, 2.6vw, 30px);
   line-height: 1;
   letter-spacing: -0.04em;
 }
 
-.row-unit {
+.tub-n small {
   font-family: var(--body);
   font-size: 14px;
   letter-spacing: 0;
+  opacity: 0.75;
+}
+
+.cherry {
+  width: 16px;
+  height: 20px;
+  align-self: center;
+  overflow: visible;
+}
+
+/* ───────── one haven's week (a popup) ───────── */
+
+html:has(.sheet[open]) {
+  overflow: hidden;
+}
+
+.sheet {
+  width: min(560px, calc(100% - 2 * var(--gutter)));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 24px 60px rgb(10 40 100 / 0.35);
+}
+
+.sheet[open] {
+  animation: sheet-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sheet::backdrop {
+  background: rgb(20 50 110 / 0.45);
+  backdrop-filter: blur(2px);
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+
+.sheet-body {
+  display: grid;
+  gap: 24px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.sheet-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sheet-rank {
+  margin-bottom: 6px;
   color: var(--muted);
-  min-width: 40px;
+  font-size: 15px;
+}
+
+.sheet-head h2 {
+  font-family: var(--display);
+  font-size: clamp(34px, 7vw, 46px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.sheet-close {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font: 26px/1 var(--body);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.sheet-goal {
+  display: grid;
+  gap: 12px;
+}
+
+.sheet-tally {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: clamp(60px, 12vw, 84px);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+}
+
+.sheet-tally small {
+  font-family: var(--body);
+  font-size: 18px;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+/* the same waffle tub as the list, without the text */
+.sheet-bar {
+  min-height: 26px;
+  padding: 0;
+  cursor: default;
+  pointer-events: none;
+}
+
+.sheet .day-plot {
+  height: 120px;
+  padding-top: 30px;
+}
+
+.sheet .day-n {
+  font-size: 20px;
 }
 
 /* ───────── footer ───────── */
 
+/* the top padding clears the cream dripping in from the parlour */
 .foot {
   position: relative;
-  margin-top: clamp(48px, 8vw, 96px);
-  padding: 0 var(--gutter) clamp(24px, 3vw, 36px);
-  min-height: clamp(110px, 18vw, 230px);
+  padding: 56px var(--gutter) clamp(24px, 3vw, 36px);
+  min-height: clamp(150px, 18vw, 230px);
   display: flex;
   align-items: flex-end;
   justify-content: center;

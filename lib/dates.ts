@@ -54,6 +54,8 @@ export const chartDate = (i: number) => addDays(CHART_START, i);
 
 const monthDay = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 export const formatDay = (key: string) => monthDay.format(utcDay(key));
+const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" });
+export const formatWeekday = (key: string) => weekday.format(utcDay(key));
 
 export function formatDuration(ms: number) {
   const mins = Math.max(0, Math.floor(ms / 60_000));
