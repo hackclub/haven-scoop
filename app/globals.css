@@ -189,6 +189,26 @@ input {
   filter: var(--to-blue);
 }
 
+/* Hack Club's flag, hanging from the top edge */
+.hc-flag {
+  position: absolute;
+  top: 0;
+  left: calc(var(--gutter) + 8px);
+  z-index: 4;
+  width: clamp(112px, 12vw, 176px);
+  transform-origin: top center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hc-flag img {
+  width: 100%;
+  height: auto;
+}
+
+.hc-flag:hover {
+  transform: rotate(-4deg);
+}
+
 .hero-nav {
   position: absolute;
   z-index: 3;
